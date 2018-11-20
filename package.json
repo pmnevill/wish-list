@@ -1,0 +1,26 @@
+{
+  "name": "christmas-list",
+  "version": "0.1.0",
+  "description": "A Christmas list",
+  "author": "Paul Nevill",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build:ng && npm run grunt:build",
+    "grunt:build": "grunt build",
+    "build:ng": "npm run build --prefix public"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.358.0",
+    "chance": "^1.0.16",
+    "express": "^4.12.2",
+    "kraken-js": "^2.0.0",
+    "lodash": "^4.17.11",
+    "mongodb": "^3.1.10",
+    "serve-index": "^1.9.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-config-dir": "^0.3.2",
+    "grunt-contrib-compress": "^1.4.3"
+  }
+}

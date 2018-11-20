@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+  <mat-card fxLayout="column">
+    <mat-card-header fxFlex="initial">
+      <mat-card-title class="text-ellipsis" [matTooltip]="item.name">{{item.name}}</mat-card-title>
+      <mat-card-subtitle>{{item.price | currency}}</mat-card-subtitle>
+    </mat-card-header>
+    <div fxFlex mat-card-image fxLayoutAlign="space-around"><img [attr.src]="item.img"></div>
+    <mat-card-actions fxFlex="initial" fxLayoutAlign="space-between center">
+      <a mat-button *ngIf="item.url" color="primary" [attr.href]="item.url" target="_blank">VIEW</a>
+      <div fxLayout fxLayoutAlign="start center">
+        <mat-chip-list *ngIf="!item.ignorePurchased">
+          <mat-chip [selected]="form.get('purchased').value" color="primary" (click)="togglePurchased()">
+            {{form.get('purchased').value ? 'Purchased' : 'Mark Purchased'}}
+            <mat-icon *ngIf="form.get('purchased').value" class="mat-chip-remove">close</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <button mat-icon-button (click)="toggleFavorite()" [disabled]="!isAdmin && !form.get('favorite').value" color="accent" [matTooltip]="form.get('favorite').value ? 'Favorited' : 'Not Favorited'"><mat-icon>{{form.get('favorite').value ? 'favorite' : 'favorite_border'}}</mat-icon></button>
+        <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #adminMenu="matMenu">
+          <button mat-menu-item [disabled]="loading$ | async" (click)="edit.emit(item)" color="accent"><mat-icon>edit</mat-icon> Edit</button>
+          <button mat-menu-item [disabled]="loading$ | async" (click)="delete.emit(item._id)" color="warn"><mat-icon>delete</mat-icon> Delete</button>
+        </mat-menu>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

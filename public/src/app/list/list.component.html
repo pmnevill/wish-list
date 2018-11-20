@@ -1,0 +1,58 @@
+<mat-drawer-container hasBackdrop fullscreen>
+  <mat-drawer #drawer mode="over" [disableClose]="disableDrawerClose">
+    <div fxLayout="column" class="drawer-content">
+      <mat-toolbar color="accent">
+        <div fxFlex>Lists</div>
+        <button *ngIf="isAdmin$ | async" fxFlex="initial" mat-mini-fab color="primary"><mat-icon>add</mat-icon></button>
+      </mat-toolbar>
+      <mat-progress-bar color="accent" [mode]="(listsLoading$ | async) ? 'indeterminate' : ''"></mat-progress-bar>
+      <mat-nav-list fxFlex>
+        <a mat-list-item [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="disableDrawerClose = false;drawer.close()">{{list.name}}</a>
+      </mat-nav-list>
+      <div fxLayout fxLayoutAlign="end">
+        <button color="primary" mat-button [routerLink]="['./']" [queryParams]="{isAdmin: !(isAdmin$ | async)}">{{(isAdmin$ | async) ? 'Exit Admin Mode' : 'Admin Mode' }}</button>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar color="primary" fxLayoutAlign="space-between center">
+      <div fxFlex>
+        <div fxLayout fxLayoutAlign="start center" fxLayoutGap="20px">
+          <button mat-mini-fab (click)="drawer.toggle()"><mat-icon>list</mat-icon></button>
+          <span>Nevill Christmas List</span>
+        </div>
+      </div>
+      <div fxFlex="initial">{{list.name}}</div>
+      <div fxFlex fxLayoutAlign="end">
+        <button mat-mini-fab (click)="openNewDialog()" *ngIf="isAdmin$ | async"><mat-icon>add</mat-icon></button>
+      </div>
+    </mat-toolbar>
+    <mat-progress-bar [mode]="(listLoading$ | async) ? 'indeterminate' : ''"></mat-progress-bar>
+    <div class="main-content" *ngIf="list._id">
+      <div fxLayout fxLayout.lt-sm="column" fxLayoutAlign="start center">
+        <div fxFlex fxFlex.lt-sm="initial">
+          <form [formGroup]="searchForm" fxLayout fxLayout.lt-sm="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div fxFlex="initial" fxFlex.lt-sm="grow" fxLayoutAlign="start center">
+              <mat-icon>search</mat-icon>
+              <mat-form-field id="search-items">
+                <input type="text" matInput formControlName="term">
+              </mat-form-field>
+            </div>
+            <div fxFlex="noshrink" fxLayoutGap="8px" fxLayout fxLayoutAlign="start center" fxLayoutAlign.lt-sm="space-between">
+              <mat-chip-list multiple fxFlex="initial">
+                <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['available']?.value" (click)="toggleControl('available')">Available</mat-chip>
+                <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['purchased']?.value" (click)="toggleControl('purchased')">Purchased</mat-chip>
+              </mat-chip-list>
+              <button [disabled]="loading$ | async" fxFlex="initial" mat-icon-button color="primary" (click)="getList()"><mat-icon>refresh</mat-icon></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="25" fxFlex.lt-md="50" fxFlex.lt-sm="100" *ngFor="let item of filteredItems">
+          <app-item [(item)]="item" [loading$]="loading$" [isAdmin]="isAdmin$ | async" (changed)="updateItem($event)" (delete)="deleteItem($event)" (edit)="openNewDialog($event)"></app-item>
+        </div>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

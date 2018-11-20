@@ -1,0 +1,24 @@
+mat-toolbar {
+  mat-icon img {
+    width: inherit;
+  }
+}
+.main-content {
+  padding: 10px;
+  #search-items {
+    width: 100%;
+  }
+  app-item {
+    margin: 10px 10px;
+    display: block;
+  }
+}
+mat-drawer {
+  min-width: 300px;
+}
+mat-drawer-container {
+  background-color: transparent;
+}
+.drawer-content {
+  height: 100%;
+}

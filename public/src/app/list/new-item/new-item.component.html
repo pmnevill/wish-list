@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>What do you want?</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" fxLayout="column">
+    <mat-form-field>
+      <input matInput type="text" formControlName="name" placeholder="Name">
+    </mat-form-field>
+    <mat-form-field>
+      <span matPrefix>$&nbsp;</span>
+      <input matInput type="number" formControlName="price" placeholder="Price">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" formControlName="url" placeholder="Link">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" formControlName="img" placeholder="Image Link">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="saveItem()" [disabled]="form.invalid || form.pristine">Ok</button>
+</div>
