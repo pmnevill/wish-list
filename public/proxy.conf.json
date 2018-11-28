@@ -1,7 +1,8 @@
-{
-  "/api": {
+[
+  {
+    "context": ["/login", "/callback", "/logout", "/api"],
     "target": "http://localhost:8000",
     "secure": false,
     "autoRewrite": true
   }
-}
+]

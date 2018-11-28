@@ -13,33 +13,28 @@ module.exports = function (router) {
   const getList = (req, res) => {
     let list;
 
-    try {
-      db.collection('lists').findOne({
-        _id: new mongo.ObjectID(req.params.id)
-      }).then(
-        (resList) => {
-          if (!resList) {
-            res.sendStatus(404);
-          } else {
-            list = resList;
-            return db.collection('items').find({
-              list: new mongo.ObjectID(req.params.id),
-              deleted: false,
-            }).toArray();
-          }
-        },
-      ).then(
-        (items) => {
-          res.json({
-            ...list,
-            items: items || [],
-          })
-        },
-      )
-    }
-    catch (err) {
-      console.log(err);
-    }
+    db.collection('lists').findOne({
+      _id: new mongo.ObjectID(req.params.id)
+    }).then(
+      (resList) => {
+        if (!resList) {
+          res.sendStatus(404);
+        } else {
+          list = resList;
+          return db.collection('items').find({
+            list: new mongo.ObjectID(req.params.id),
+            deleted: false,
+          }).toArray();
+        }
+      },
+    ).then(
+      (items) => {
+        res.json({
+          ...list,
+          items: items || [],
+        })
+      },
+    )
   };
 
   router.get('', getLists);

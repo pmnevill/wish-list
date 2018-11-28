@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Item} from '../list';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-item',
@@ -32,6 +33,7 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private snackbar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,7 @@ export class ItemComponent implements OnInit {
     const control = this.form.get('purchased');
     control.markAsDirty();
     control.setValue(!control.value);
+    this.snackbar.open(control.value ? 'Thank you!' : 'It\'s the thought that counts?', null, {duration: 2000});
   }
 
   toggleFavorite() {

@@ -1,6 +1,7 @@
 const mongo = require('mongodb');
 const mongoUtil = require( '../../utils/mongo' );
 const db = mongoUtil.getDb();
+var secured = require('../../lib/middleware/secured');
 
 module.exports = function (router) {
 
@@ -60,10 +61,10 @@ module.exports = function (router) {
     })
   };
 
-  router.post('', addItem);
+  router.post('', secured(), addItem);
 
-  router.put('/:id', updateItem);
+  router.put('/:id', secured(), updateItem);
 
-  router.delete('/:id', deleteItem);
+  router.delete('/:id', secured(), deleteItem);
 
 };

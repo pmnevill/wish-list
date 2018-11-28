@@ -1,7 +1,7 @@
 {
   "mongo": {
-    "key": "/etc/pki/tls/certs/pmnevill.pem",
-    "url": "mongodb://10.0.140.247:27017"
+    "srv": true,
+    "url": "mymongodb-rucw6.mongodb.net/test?retryWrites=true"
   },
   "middleware": {
     "static": {
@@ -17,7 +17,7 @@
     "index": {
       "priority": 41,
       "enabled": true,
-      "route": "((?!api))*",
+      "route": "((?!api)(?!login)(?!callback)(?!logout))*",
       "module": {
         "name": "serve-index",
         "arguments": [

@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -11,6 +11,13 @@ import {ListService} from './list/list.service';
 import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import { NewItemComponent } from './list/new-item/new-item.component';
+
+export class MyHammerConfig extends HammerGestureConfig {
+  overrides = <any> {
+    'pinch': { enabled: false },
+    'rotate': { enabled: false }
+  };
+}
 
 @NgModule({
   declarations: [
@@ -27,7 +34,13 @@ import { NewItemComponent } from './list/new-item/new-item.component';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [ListService],
+  providers: [
+    ListService,
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: MyHammerConfig
+    },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [NewItemComponent],
 })

@@ -1,7 +1,7 @@
 {
   "mongo": {
-    "key": "/resource/personal/OneDrive/Documents/work/AWS/pmnevill.pem",
-    "url": "mongodb://localhost:27017"
+    "srv": false,
+    "url": "localhost:27017"
   },
   "middleware": {
   }

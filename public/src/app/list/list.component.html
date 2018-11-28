@@ -9,23 +9,33 @@
       <mat-nav-list fxFlex>
         <a mat-list-item [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="disableDrawerClose = false;drawer.close()">{{list.name}}</a>
       </mat-nav-list>
-      <div fxLayout fxLayoutAlign="end">
-        <button color="primary" mat-button [routerLink]="['./']" [queryParams]="{isAdmin: !(isAdmin$ | async)}">{{(isAdmin$ | async) ? 'Exit Admin Mode' : 'Admin Mode' }}</button>
-      </div>
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-toolbar color="primary" fxLayoutAlign="space-between center">
-      <div fxFlex>
-        <div fxLayout fxLayoutAlign="start center" fxLayoutGap="20px">
-          <button mat-mini-fab (click)="drawer.toggle()"><mat-icon>list</mat-icon></button>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row fxLayoutAlign="space-between center">
+        <div fxFlex>
+          <div fxLayout fxLayoutAlign="start center" fxLayoutGap="20px">
+            <button fxFlex="initial" mat-mini-fab (click)="drawer.toggle()"><mat-icon>list</mat-icon></button>
+            <span fxFlex fxHide.xs>Nevill Christmas List</span>
+          </div>
+        </div>
+        <div fxFlex="initial" fxHide.gt-xs>
           <span>Nevill Christmas List</span>
         </div>
-      </div>
-      <div fxFlex="initial">{{list.name}}</div>
-      <div fxFlex fxLayoutAlign="end">
-        <button mat-mini-fab (click)="openNewDialog()" *ngIf="isAdmin$ | async"><mat-icon>add</mat-icon></button>
-      </div>
+        <div fxFlex="initial" fxHide.xs>{{list.name}}</div>
+        <div fxFlex fxLayoutAlign="end" fxLayoutGap="10px">
+          <button mat-icon-button id="profile-picture" [matMenuTriggerFor]="accountMenu">
+            <mat-icon *ngIf="!(userService.user | async)?.auth0?.picture">account_circle</mat-icon>
+            <img *ngIf="(userService.user | async)?.auth0?.picture" [src]="(userService.user | async)?.auth0?.picture" alt="profile picture">
+          </button>
+        </div>
+        <mat-menu #accountMenu="matMenu">
+          <a mat-menu-item href="/login" *ngIf="!(userService.user | async)?._id">Log In</a>
+          <a mat-menu-item href="/logout" *ngIf="(userService.user | async)?._id">Log Out</a>
+        </mat-menu>
+      </mat-toolbar-row>
+      <mat-toolbar-row fxHide.gt-xs fxLayoutAlign="space-around center">{{list.name}}</mat-toolbar-row>
     </mat-toolbar>
     <mat-progress-bar [mode]="(listLoading$ | async) ? 'indeterminate' : ''"></mat-progress-bar>
     <div class="main-content" *ngIf="list._id">
@@ -38,19 +48,20 @@
                 <input type="text" matInput formControlName="term">
               </mat-form-field>
             </div>
-            <div fxFlex="noshrink" fxLayoutGap="8px" fxLayout fxLayoutAlign="start center" fxLayoutAlign.lt-sm="space-between">
-              <mat-chip-list multiple fxFlex="initial">
-                <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['available']?.value" (click)="toggleControl('available')">Available</mat-chip>
+            <div fxFlex="noshrink" fxLayoutGap="8px" fxLayout fxLayoutAlign="start center">
+              <mat-chip-list multiple fxFlex="auto">
+                <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['available']?.value" (click)="toggleControl('available')">Not Purchased</mat-chip>
                 <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['purchased']?.value" (click)="toggleControl('purchased')">Purchased</mat-chip>
               </mat-chip-list>
               <button [disabled]="loading$ | async" fxFlex="initial" mat-icon-button color="primary" (click)="getList()"><mat-icon>refresh</mat-icon></button>
+              <button mat-mini-fab fxFlex="initial" (click)="openNewDialog()" *ngIf="isAdmin$ | async"><mat-icon>add</mat-icon></button>
             </div>
           </form>
         </div>
       </div>
       <div fxLayout="row wrap">
-        <div fxFlex.gt-sm="25" fxFlex.lt-md="50" fxFlex.lt-sm="100" *ngFor="let item of filteredItems">
-          <app-item [(item)]="item" [loading$]="loading$" [isAdmin]="isAdmin$ | async" (changed)="updateItem($event)" (delete)="deleteItem($event)" (edit)="openNewDialog($event)"></app-item>
+        <div fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" *ngFor="let item of filteredItems">
+          <app-item [matTooltip]="item.purchased ? 'Already purchased!' : ''" [(item)]="item" [loading$]="loading$" [isAdmin]="isAdmin$ | async" (changed)="updateItem($event)" (delete)="deleteItem($event)" (edit)="openNewDialog($event)"></app-item>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import {Item, List} from './list';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatDrawer} from '@angular/material';
 import {NewItemComponent} from './new-item/new-item.component';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-list',
@@ -35,11 +36,12 @@ export class ListComponent implements OnInit {
     private listService: ListService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    public userService: UserService,
   ) {
     this.searchForm = fb.group({
       term: fb.control(''),
       available: fb.control(true),
-      purchased: fb.control(true),
+      purchased: fb.control(false),
     });
   }
 
@@ -57,8 +59,8 @@ export class ListComponent implements OnInit {
       }
     });
 
-    this.route.queryParams.subscribe((params) => {
-      this.isAdmin$.next(params.isAdmin === 'true');
+    this.userService.user.subscribe((user: any) => {
+      this.isAdmin$.next(user.isAdmin);
     });
 
     this.searchForm.valueChanges.subscribe((val) => {
@@ -108,7 +110,7 @@ export class ListComponent implements OnInit {
           (item.purchased === form.purchased ||
             item.purchased !== form.available);
       })
-      .orderBy('favorite', 'desc')
+      .sortBy((item: Item) => item.favorite ? 0 : 1)
       .value();
   }
 

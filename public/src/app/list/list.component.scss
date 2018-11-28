@@ -1,6 +1,16 @@
 mat-toolbar {
+  .list-name {
+    text-align: center;
+  }
   mat-icon img {
     width: inherit;
+  }
+  #profile-picture {
+    overflow: hidden;
+    img {
+      width: 100%;
+      vertical-align: initial;
+    }
   }
 }
 .main-content {
