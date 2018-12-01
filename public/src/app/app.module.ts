@@ -3,14 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {SharedModule} from './shared/shared.module';
+import {CoreModule} from './core/core.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { ItemComponent } from './list/item/item.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ListService} from './list/list.service';
+import {ListService} from './api/list.service';
 import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import { NewItemComponent } from './list/new-item/new-item.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any> {
@@ -25,14 +26,11 @@ export class MyHammerConfig extends HammerGestureConfig {
     ItemComponent,
     ListComponent,
     NewItemComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    FlexLayoutModule,
-    HttpClientModule,
-    AppRoutingModule,
+    CoreModule,
   ],
   providers: [
     ListService,

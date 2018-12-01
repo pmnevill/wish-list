@@ -2,6 +2,7 @@ export interface List {
   _id?: string;
   name?: string;
   items?: Item[];
+  userId?: string;
 }
 
 export interface Item {

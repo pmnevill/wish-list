@@ -12,6 +12,20 @@ module.exports = function (router) {
     });
   };
 
-  router.get('', secured(false), getUser);
+  const getUserImage = (req, res) => {
+    db.collection('users').findOne({
+      'auth0.id': req.params.id
+    }).then((user) => {
+      if (user && user.auth0) {
+        res.json(user.auth0.picture);
+      } else {
+        res.sendStatus(404);
+      }
+    });
+  };
+
+  router.get('', secured.authenticated(false), getUser);
+
+  router.get('/:id/image', getUserImage);
 
 };

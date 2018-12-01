@@ -43,7 +43,8 @@ module.exports = function (router) {
 
   const logout = (req, res) => {
     req.logout();
-    res.redirect('/');
+    const returnTo = encodeURIComponent(process.env.AUTH0_CALLBACK_URL);
+    res.redirect(`https://${process.env.AUTH0_DOMAIN}/v2/logout?client_id=${process.env.AUTH0_CLIENT_ID}`);
   };
 
   router.get(

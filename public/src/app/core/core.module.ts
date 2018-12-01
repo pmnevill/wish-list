@@ -1,15 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
   MatListModule,
-  MatMenuModule, MatProgressBarModule, MatSidenavModule,
-  MatSlideToggleModule, MatSnackBarModule,
+  MatMenuModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingModule} from '../app-routing.module';
 
 const matModules = [
   MatToolbarModule,
@@ -28,18 +43,28 @@ const matModules = [
   MatDialogModule,
   MatProgressBarModule,
   MatSnackBarModule,
+  MatSelectModule,
+  MatButtonToggleModule,
 ];
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     matModules,
+    FlexLayoutModule,
+    HttpClientModule,
+    AppRoutingModule,
   ],
   exports: [
+    BrowserAnimationsModule,
     matModules,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    HttpClientModule,
+    AppRoutingModule,
   ]
 })
-export class SharedModule { }
+export class CoreModule { }

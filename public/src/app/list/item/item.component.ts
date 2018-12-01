@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Item} from '../list';
+import {Item} from '../../api/list';
 import {MatSnackBar} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
+import {User} from '../../api/user';
 
 @Component({
   selector: 'app-item',
@@ -12,6 +14,7 @@ import {MatSnackBar} from '@angular/material';
 export class ItemComponent implements OnInit {
 
   _item: Item;
+  user: User;
 
   @Input()
   get item() {
@@ -34,9 +37,11 @@ export class ItemComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackbar: MatSnackBar,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.user = this.route.snapshot.data.user;
     this.form.valueChanges.subscribe((val) => {
       if (this.form.valid && this.form.dirty) {
         this.changed.emit({

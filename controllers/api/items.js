@@ -61,10 +61,10 @@ module.exports = function (router) {
     })
   };
 
-  router.post('', secured(), addItem);
+  router.post('', secured.authenticated(), secured.admin(), addItem);
 
-  router.put('/:id', secured(), updateItem);
+  router.put('/:id', secured.authenticated(), secured.admin(), updateItem);
 
-  router.delete('/:id', secured(), deleteItem);
+  router.delete('/:id', secured.authenticated(), secured.admin(), deleteItem);
 
 };

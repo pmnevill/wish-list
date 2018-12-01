@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <mat-card fxLayout="column">
+  <mat-card fxLayout="column" [matTooltip]="form.get('purchased').value ? 'Already purchased!' : ''">
     <mat-card-header fxFlex="initial">
       <mat-card-title class="text-ellipsis" [matTooltip]="item.name">{{item.name}}</mat-card-title>
       <mat-card-subtitle>{{item.price | currency}}</mat-card-subtitle>
@@ -11,7 +11,8 @@
       </div>
       <div fxLayout fxLayoutAlign="start center">
         <mat-chip-list *ngIf="!item.ignorePurchased">
-          <mat-chip [selected]="form.get('purchased').value" color="primary" (click)="togglePurchased()" [matTooltip]="form.get('purchased').value ? 'Mark as not purchased' : 'Mark as purchased'">
+          <!--<mat-chip *ngIf="!user?._id">Mark as Purchased</mat-chip>-->
+          <mat-chip *ngIf="user?._id" [selected]="form.get('purchased').value" color="primary" (click)="togglePurchased()" [matTooltip]="form.get('purchased').value ? 'Mark as not purchased' : 'Mark as purchased'">
             {{form.get('purchased').value ? 'Purchased' : 'Not Purchased'}}
             <mat-icon *ngIf="form.get('purchased').value" class="mat-chip-remove">close</mat-icon>
           </mat-chip>

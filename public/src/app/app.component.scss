@@ -1,0 +1,18 @@
+mat-toolbar {
+  mat-icon img {
+    width: inherit;
+  }
+  #profile-picture {
+    overflow: hidden;
+    img {
+      width: 100%;
+      vertical-align: initial;
+    }
+  }
+}
+mat-sidenav {
+  min-width: 300px;
+}
+#header-text {
+  text-align: center;
+}

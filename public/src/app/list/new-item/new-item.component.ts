@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ListService} from '../list.service';
+import {ListService} from '../../api/list.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Item} from '../list';
+import {Item} from '../../api/list';
 
 @Component({
   selector: 'app-new-item',

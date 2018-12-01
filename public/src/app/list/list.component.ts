@@ -1,14 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import * as _ from 'lodash';
-import {ListService} from './list.service';
+import {ListService} from '../api/list.service';
 import {BehaviorSubject, combineLatest} from 'rxjs';
 import {auditTime} from 'rxjs/internal/operators';
-import {Item, List} from './list';
+import {Item, List} from '../api/list';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatDrawer} from '@angular/material';
 import {NewItemComponent} from './new-item/new-item.component';
-import {UserService} from '../user.service';
+import {UserService} from '../api/user.service';
+import {User} from '../api/user';
 
 @Component({
   selector: 'app-list',
@@ -17,17 +18,38 @@ import {UserService} from '../user.service';
 })
 export class ListComponent implements OnInit {
   currentId: string;
-  lists: List[] = [];
   list: List = {};
   filteredItems;
   searchForm: FormGroup;
   loading$ = new BehaviorSubject(false);
-  listsLoading$ = new BehaviorSubject(false);
   listLoading$ = new BehaviorSubject(false);
   updateLoading$ = new BehaviorSubject(false);
   deleteLoading$ = new BehaviorSubject(false);
   isAdmin$ = new BehaviorSubject(false);
   disableDrawerClose = false;
+  orderByFavorite = {
+    iteratee: (item: Item) => item.favorite ? 0 : 1,
+    label: 'Favorite',
+  };
+  orderByPrice = {
+    iteratee: 'price',
+    label: 'Price',
+  };
+  orderByName = {
+    iteratee: 'name',
+    label: 'Name',
+  };
+  orderByPurchased = {
+    iteratee: (item: Item) => item.purchased ? 0 : 1,
+    label: 'Purchased',
+  };
+  orderBys = [
+    this.orderByFavorite,
+    this.orderByPrice,
+    this.orderByName,
+    this.orderByPurchased,
+  ];
+  user: User;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -42,11 +64,14 @@ export class ListComponent implements OnInit {
       term: fb.control(''),
       available: fb.control(true),
       purchased: fb.control(false),
+      orderBy: fb.control(this.orderByFavorite),
+      orderAsc: fb.control(true)
     });
   }
 
   ngOnInit() {
-    this.getLists();
+    this.user = this.route.snapshot.data.user;
+    this.isAdmin$.next(this.user.isAdmin);
 
     this.route.params.subscribe((params) => {
       if (params.id) {
@@ -57,10 +82,6 @@ export class ListComponent implements OnInit {
         this.disableDrawerClose = true;
         this.drawer.open();
       }
-    });
-
-    this.userService.user.subscribe((user: any) => {
-      this.isAdmin$.next(user.isAdmin);
     });
 
     this.searchForm.valueChanges.subscribe((val) => {
@@ -83,14 +104,6 @@ export class ListComponent implements OnInit {
     });
   }
 
-  getLists() {
-    this.listsLoading$.next(true);
-    this.listService.getLists().subscribe((lists) => {
-      this.listsLoading$.next(false);
-      this.lists = lists;
-    });
-  }
-
   getList(filterItems = true) {
     this.listLoading$.next(true);
     this.listService.getList(this.currentId).subscribe((list) => {
@@ -110,7 +123,7 @@ export class ListComponent implements OnInit {
           (item.purchased === form.purchased ||
             item.purchased !== form.available);
       })
-      .sortBy((item: Item) => item.favorite ? 0 : 1)
+      .orderBy([form.orderBy.iteratee, 'name'], form.orderAsc ? 'asc' : 'desc')
       .value();
   }
 
@@ -150,5 +163,14 @@ export class ListComponent implements OnInit {
         this.getList();
       }
     });
+  }
+
+  orderByCompareFn(a, b): boolean {
+    return a && b ? a.label === b.label : a === b;
+  }
+
+  toggleSortOrder() {
+    const control = this.searchForm.get('orderAsc');
+    control.setValue(!control.value);
   }
 }

@@ -1,20 +1,28 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ListComponent} from './list/list.component';
+import {UserResolverService} from './user-resolver.service';
+import {WelcomeComponent} from './welcome/welcome.component';
 
 const appRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'lists',
+    redirectTo: 'welcome'
   },
   {
-    path: 'lists',
-    component: ListComponent,
+    path: 'welcome',
+    component: WelcomeComponent,
+    resolve: {
+      user: UserResolverService,
+    },
   },
   {
     path: 'lists/:id',
     component: ListComponent,
+    resolve: {
+      user: UserResolverService,
+    },
   },
 ];
 
@@ -26,6 +34,9 @@ const appRoutes: Routes = [
   ],
   exports: [
     RouterModule
+  ],
+  providers: [
+    UserResolverService,
   ]
 })
 export class AppRoutingModule {

@@ -23,12 +23,12 @@ mat-toolbar {
     display: block;
   }
 }
-mat-drawer {
+mat-sidenav {
   min-width: 300px;
 }
-mat-drawer-container {
+mat-sidenav-container {
   background-color: transparent;
 }
-.drawer-content {
+.sidenav-content {
   height: 100%;
 }
