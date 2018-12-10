@@ -26,6 +26,6 @@ module.exports = function (router) {
 
   router.get('', secured.authenticated(false), getUser);
 
-  router.get('/:id/image', getUserImage);
+  router.get('/:id/image', secured.authenticated(false), getUserImage);
 
 };

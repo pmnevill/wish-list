@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   getLists() {
     this.listsLoading$.next(true);
     this.listService.getLists().subscribe((lists) => {
+      this.listService.lists.next(lists);
       this.listsLoading$.next(false);
       this.lists = lists;
     });

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/index';
+import {BehaviorSubject, Observable} from 'rxjs/index';
 import {Item, List} from './list';
 
 @Injectable()
 export class ListService {
+
+  public lists = new BehaviorSubject([]);
 
   constructor(
     private http: HttpClient,

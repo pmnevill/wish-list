@@ -2,55 +2,103 @@ const mongo = require('mongodb');
 const mongoUtil = require( '../../utils/mongo' );
 const _ = require('lodash');
 const db = mongoUtil.getDb();
+var secured = require('../../lib/middleware/secured');
 
 module.exports = function (router) {
 
   const getLists = (req, res) => {
-    db.collection('lists').find().toArray().then((lists) => {
+    db.collection('lists').aggregate([
+      {
+        $lookup: {
+          from: 'items',
+          let: { 'list_id': '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: [ '$listId',  '$$list_id' ] },
+                    { $eq: [ '$deleted',  false ] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'items'
+        }
+      },
+    ]).toArray()
+    .then((lists) => {
       res.json(lists);
     })
   };
 
   const getList = (req, res) => {
     let list;
-    let items;
+    let user;
 
-    db.collection('lists').findOne({
-      _id: new mongo.ObjectID(req.params.id)
-    }).then((resList) => {
-      if (!resList) {
+    db.collection('lists').aggregate([
+      {
+        $match: {
+          _id: new mongo.ObjectID(req.params.id)
+        }
+      },
+      { $limit : 1 },
+      {
+        $lookup: {
+          from: 'items',
+          let: {
+            list_id: '$_id',
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: [ '$listId',  '$$list_id' ] },
+                    { $eq: [ '$deleted',  false ] },
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'items'
+        }
+      }
+    ]).toArray()
+    .then((resLists) => {
+      if (!resLists[0]) {
         res.sendStatus(404);
+        return;
       } else {
-        list = resList;
-        return db.collection('items').find({
-          list: new mongo.ObjectID(req.params.id),
-          deleted: false,
-        }).toArray();
+        list = resLists[0];
+        if (req.user) {
+          return db.collection('users').findOne({
+            'auth0.id': req.user.id,
+          });
+        }
+        return;
       }
     })
-    .then((resItems) => {
-      items = resItems;
-      if (req.user) {
-        return db.collection('users').findOne({
-          'auth0.id': req.user.id,
-        });
+    .then((resUser) => {
+      user = resUser;
+      if (list.userId && (!resUser || resUser._id.toString() === list.userId.toString())) {
+        list.items = _.filter(list.items, {hidden: false});
       }
-      return;
-    })
-    .then(filterList)
-
-    function filterList(user) {
       res.json({
         ...list,
-        items: _.map(items, (item) => {
-          return !list.userId || (user && user._id.toString() !== list.userId.toString()) ? item : {...item, purchased: false}
+        items: _.map(list.items, (item) => {
+          return !list.userId || (user && user._id.toString() !== list.userId.toString()) ? item : {
+            ...item,
+            purchased: false
+          }
         }) || [],
       })
-    }
+    });
   };
 
-  router.get('', getLists);
+  router.get('', secured.authenticated(false), getLists);
 
-  router.get('/:id', getList);
+  router.get('/:id', secured.authenticated(false), getList);
 
 };

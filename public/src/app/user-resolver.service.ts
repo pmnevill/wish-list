@@ -23,7 +23,7 @@ export class UserResolverService implements Resolve<User> {
       }),
       catchError((err) => {
         this.userService.user.next({});
-        const snackBarRef = this.snackBar.open('Log in to show if items are purchased', 'Log In');
+        const snackBarRef = this.snackBar.open('You are logged out!', 'Log In');
         snackBarRef.onAction().subscribe(() => window.location.href = '/login');
         return observableOf({});
       })

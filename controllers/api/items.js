@@ -1,12 +1,13 @@
 const mongo = require('mongodb');
 const mongoUtil = require( '../../utils/mongo' );
 const db = mongoUtil.getDb();
+const _ = require('lodash');
 var secured = require('../../lib/middleware/secured');
 
 module.exports = function (router) {
 
   const updateItem = (req, res) => {
-    db.collection( 'items' ).updateOne(
+    db.collection('items').updateOne(
       {
         _id: new mongo.ObjectID(req.params.id)
       },
@@ -48,7 +49,8 @@ module.exports = function (router) {
     db.collection( 'items' ).insertOne(
       {
         ...req.body,
-        list: new mongo.ObjectID(req.body.list),
+        hidden: _.isBoolean(req.body.hidden) ? req.body.hidden : false,
+        listId: new mongo.ObjectID(req.body.listId),
         deleted: false,
         purchased: false,
       }
@@ -61,10 +63,10 @@ module.exports = function (router) {
     })
   };
 
-  router.post('', secured.authenticated(), secured.admin(), addItem);
+  router.post('', secured.authenticated(false), secured.admin(), addItem);
 
-  router.put('/:id', secured.authenticated(), secured.admin(), updateItem);
+  router.put('/:id', secured.authenticated(false), updateItem);
 
-  router.delete('/:id', secured.authenticated(), secured.admin(), deleteItem);
+  router.delete('/:id', secured.authenticated(false), secured.admin(), deleteItem);
 
 };

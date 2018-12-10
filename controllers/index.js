@@ -1,4 +1,3 @@
-const mongo = require('mongodb');
 const mongoUtil = require( '../utils/mongo' );
 const db = mongoUtil.getDb();
 var passport = require('passport');
@@ -43,7 +42,6 @@ module.exports = function (router) {
 
   const logout = (req, res) => {
     req.logout();
-    const returnTo = encodeURIComponent(process.env.AUTH0_CALLBACK_URL);
     res.redirect(`https://${process.env.AUTH0_DOMAIN}/v2/logout?client_id=${process.env.AUTH0_CLIENT_ID}`);
   };
 

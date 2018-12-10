@@ -1,11 +1,25 @@
 <mat-toolbar color="primary">Welcome</mat-toolbar>
 <div fxLayout="row wrap">
-  <div *ngFor="let list of lists" fxFlex="25%" class="card-holder">
+  <div *ngFor="let list of lists" fxFlex="25" fxFlex.sm="50" fxFlex.xs="100" class="card-holder">
     <mat-card>
-      <mat-card-header>{{list.name}}</mat-card-header>
-      <mat-card-content></mat-card-content>
+      <mat-card-header>
+        <!--<div mat-card-avatar><mat-icon>list</mat-icon></div>-->
+        <mat-card-title>{{list.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <span mat-list-icon>{{getPurchased(list)}}</span>
+            <h4 matLine>Purchased</h4>
+          </mat-list-item>
+          <mat-list-item>
+            <span mat-list-icon>{{getAvailable(list)}}</span>
+            <h4 matLine>Available</h4>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
       <mat-card-actions>
-        <a mat-button [routerLink]="['../lists',list._id]">View</a>
+        <a mat-button color="accent" [routerLink]="['../lists',list._id]">View</a>
       </mat-card-actions>
     </mat-card>
   </div>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {User} from './user';
 
 @Injectable({
@@ -16,6 +15,6 @@ export class UserService {
   ) { }
 
   public getUser() {
-    return <Observable<User>>this.http.get('./api/user')
+    return <Observable<User>>this.http.get('./api/user');
   }
 }

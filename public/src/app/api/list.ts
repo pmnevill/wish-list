@@ -3,6 +3,8 @@ export interface List {
   name?: string;
   items?: Item[];
   userId?: string;
+  purchased?: boolean;
+  available?: boolean;
 }
 
 export interface Item {
@@ -15,5 +17,6 @@ export interface Item {
   ignorePurchased?: boolean;
   list?: string;
   favorite?: boolean;
+  hidden?: boolean;
 }
 

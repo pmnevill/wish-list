@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  MatBadgeModule,
   MatButtonModule,
   MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
   MatDialogModule,
-  MatFormFieldModule,
+  MatFormFieldModule, MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -45,6 +46,8 @@ const matModules = [
   MatSnackBarModule,
   MatSelectModule,
   MatButtonToggleModule,
+  MatGridListModule,
+  MatBadgeModule,
 ];
 
 @NgModule({

@@ -15,7 +15,7 @@
         </div>
         <div fxFlex="initial" fxFlex.lt-sm="grow" fxLayout fxLayout.lt-sm="column" fxLayoutGap="20px" fxLayoutAlign.lt-sm="start" fxLayoutAlign="space-between center">
           <div fxLayout fxLayoutAlign.lt-sm="center" fxFlex="noshrink">
-            <mat-chip-list *ngIf="user._id && user._id !== list.userId" multiple fxFlex="initial" matTooltip="Must be logged in to view purchase status of this list" [matTooltipDisabled]="user?._id || !list.userId">
+            <mat-chip-list *ngIf="user?._id && user?._id !== list.userId" multiple fxFlex="initial">
               <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['available']?.value" (click)="toggleControl('available')">Not Purchased</mat-chip>
               <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['purchased']?.value" (click)="toggleControl('purchased')">Purchased</mat-chip>
             </mat-chip-list>
@@ -23,7 +23,9 @@
           <div fxFlex="initial" fxLayout fxLayoutGap="5px">
             <mat-form-field fxFlex="initial" fxFlex.lt-sm="">
               <mat-select formControlName="orderBy" placeholder="Order By" [compareWith]="orderByCompareFn">
-                <mat-option *ngFor="let item of orderBys" [value]="item">{{item.label}}</mat-option>
+                <div *ngFor="let item of orderBys">
+                  <mat-option [value]="item">{{item.label}}</mat-option>
+                </div>
               </mat-select>
             </mat-form-field>
             <button fxFlex="initial" mat-icon-button (click)="toggleSortOrder()" color="accent"><mat-icon>swap_vert</mat-icon></button>

@@ -4,6 +4,15 @@
     "url": "mymongodb-rucw6.mongodb.net/test?retryWrites=true"
   },
   "middleware": {
+    "authn": {
+      "priority": 39,
+      "enabled": true,
+      "route": "((?!api)(?!login)(?!callback)(?!logout))*",
+      "module": {
+        "name": "path:./lib/middleware/secured",
+        "method": "authenticated"
+      }
+    },
     "static": {
       "priority": 40,
       "enabled": true,

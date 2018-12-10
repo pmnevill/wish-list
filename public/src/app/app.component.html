@@ -24,7 +24,6 @@
         </button>
       </div>
       <mat-menu #accountMenu="matMenu">
-        <a mat-menu-item href="/login" *ngIf="!user?._id">Log In</a>
         <a mat-menu-item href="/logout" *ngIf="user?._id">Log Out</a>
       </mat-menu>
     </mat-toolbar>

@@ -8,7 +8,6 @@ import {Item, List} from '../api/list';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatDrawer} from '@angular/material';
 import {NewItemComponent} from './new-item/new-item.component';
-import {UserService} from '../api/user.service';
 import {User} from '../api/user';
 
 @Component({
@@ -39,17 +38,12 @@ export class ListComponent implements OnInit {
     iteratee: 'name',
     label: 'Name',
   };
-  orderByPurchased = {
-    iteratee: (item: Item) => item.purchased ? 0 : 1,
-    label: 'Purchased',
-  };
   orderBys = [
     this.orderByFavorite,
     this.orderByPrice,
     this.orderByName,
-    this.orderByPurchased,
   ];
-  user: User;
+  public user: User;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -58,15 +52,15 @@ export class ListComponent implements OnInit {
     private listService: ListService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    public userService: UserService,
   ) {
     this.searchForm = fb.group({
-      term: fb.control(''),
-      available: fb.control(true),
-      purchased: fb.control(false),
-      orderBy: fb.control(this.orderByFavorite),
-      orderAsc: fb.control(true)
+      term: fb.control(null),
+      available: fb.control(null),
+      purchased: fb.control(null),
+      orderBy: fb.control(null),
+      orderAsc: fb.control(null)
     });
+    this.resetSearchForm();
   }
 
   ngOnInit() {
@@ -74,6 +68,7 @@ export class ListComponent implements OnInit {
     this.isAdmin$.next(this.user.isAdmin);
 
     this.route.params.subscribe((params) => {
+      this.resetSearchForm();
       if (params.id) {
         this.disableDrawerClose = false;
         this.currentId = params.id;
@@ -101,6 +96,16 @@ export class ListComponent implements OnInit {
       } else {
         this.searchForm.enable({emitEvent: false});
       }
+    });
+  }
+
+  resetSearchForm() {
+    this.searchForm.reset({
+      term: '',
+      available: true,
+      purchased: false,
+      orderBy: this.orderByFavorite,
+      orderAsc: true,
     });
   }
 
@@ -152,9 +157,10 @@ export class ListComponent implements OnInit {
   openNewDialog(item?: Item) {
     const dialogRef = this.dialog.open(NewItemComponent, {
       data: {
-        ...(item ? item : {
-          list: this.list._id,
-        })
+        list: this.list,
+        item: item ? item : {
+          listId: this.list._id,
+        },
       }
     });
 

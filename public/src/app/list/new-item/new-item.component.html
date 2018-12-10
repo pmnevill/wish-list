@@ -14,6 +14,7 @@
     <mat-form-field>
       <input matInput type="text" formControlName="img" placeholder="Image Link">
     </mat-form-field>
+    <mat-checkbox formControlName="hidden" *ngIf="user._id !== data.list.userId">Hide from list owner</mat-checkbox>
   </form>
 </div>
 <div mat-dialog-actions>
