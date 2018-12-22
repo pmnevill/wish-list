@@ -1,18 +1,3 @@
-mat-toolbar {
-  .list-name {
-    text-align: center;
-  }
-  mat-icon img {
-    width: inherit;
-  }
-  #profile-picture {
-    overflow: hidden;
-    img {
-      width: 100%;
-      vertical-align: initial;
-    }
-  }
-}
 .main-content {
   padding: 10px;
   #search-items {
@@ -22,13 +7,4 @@ mat-toolbar {
     margin: 10px 10px;
     display: block;
   }
-}
-mat-sidenav {
-  min-width: 300px;
-}
-mat-sidenav-container {
-  background-color: transparent;
-}
-.sidenav-content {
-  height: 100%;
 }

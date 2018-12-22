@@ -1,4 +1,6 @@
-mat-toolbar {
+mat-toolbar#main-nav {
+  z-index: 2;
+  position: fixed;
   mat-icon img {
     width: inherit;
   }
@@ -10,9 +12,12 @@ mat-toolbar {
     }
   }
 }
-mat-sidenav {
-  min-width: 300px;
-}
-#header-text {
-  text-align: center;
+mat-sidenav-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  mat-sidenav {
+    width: 300px;
+  }
 }

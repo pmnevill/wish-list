@@ -1,32 +1,40 @@
-<mat-sidenav-container [hasBackdrop]="true" fullscreen>
-  <mat-sidenav #drawer mode="over">
-    <div fxLayout="column" class="drawer-content">
+<mat-toolbar fxFlex="none" color="primary" id="main-nav" fxLayoutGap="10px">
+  <button mat-mini-fab (click)="sidenav.toggle();projectsSidenav.close();"><mat-icon>list</mat-icon></button>
+  <div fxFlex>Christmas Lists</div>
+  <div fxFlex="initial" fxLayoutGap="10px" fxLayoutAlign="start center">
+    <a mat-icon-button href="https://github.com/pmnevill/christmas-list" target="_blank"><mat-icon class="icon-github"></mat-icon></a>
+    <button mat-icon-button (click)="sidenav.close();projectsSidenav.toggle()"><mat-icon>apps</mat-icon></button>
+    <button mat-icon-button id="profile-picture" [matMenuTriggerFor]="accountMenu">
+      <mat-icon *ngIf="!user?.auth0?.picture">account_circle</mat-icon>
+      <img *ngIf="user?.auth0?.picture" [src]="user?.auth0?.picture" alt="profile picture">
+    </button>
+    <mat-menu #accountMenu="matMenu" fxHide>
+      <a mat-menu-item href="/logout" *ngIf="user?._id">Log Out</a>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container hasBackdrop fxFlex [ngStyle.gt-xs]="{'top': '64px'}" [ngStyle.xs]="{'top': '56px'}">
+  <mat-sidenav #sidenav mode="over">
+    <div fxLayout="column">
       <mat-toolbar color="accent">
         <div fxFlex>Lists</div>
-        <button mat-icon-button (click)="drawer.close()"><mat-icon>close</mat-icon></button>
+        <button mat-icon-button (click)="sidenav.close()"><mat-icon>close</mat-icon></button>
       </mat-toolbar>
       <mat-progress-bar color="accent" [mode]="(listsLoading$ | async) ? 'indeterminate' : ''"></mat-progress-bar>
       <mat-nav-list fxFlex>
-        <a mat-list-item routerLink="/" (click)="drawer.close()"><mat-icon>home</mat-icon></a>
+        <a mat-list-item routerLink="/" (click)="sidenav.close()"><mat-icon>home</mat-icon></a>
         <mat-divider></mat-divider>
-        <a mat-list-item [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="drawer.close()">{{list.name}}</a>
+        <a mat-list-item [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="sidenav.close()">{{list.name}}</a>
       </mat-nav-list>
     </div>
   </mat-sidenav>
+  <mat-sidenav #projectsSidenav mode="over" position="end">
+    <mat-toolbar>Projects</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="http://paulnevill.com">Resume</a>
+    </mat-nav-list>
+  </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button fxFlex="initial" mat-icon-button (click)="drawer.toggle()"><mat-icon>list</mat-icon></button>
-      <div fxFlex id="header-text">Nevill Christmas Lists</div>
-      <div fxFlex="initial" fxLayoutGap="10px" fxLayoutAlign="start center">
-        <button mat-icon-button id="profile-picture" [matMenuTriggerFor]="accountMenu">
-          <mat-icon *ngIf="!user?.auth0?.picture">account_circle</mat-icon>
-          <img *ngIf="user?.auth0?.picture" [src]="user?.auth0?.picture" alt="profile picture">
-        </button>
-      </div>
-      <mat-menu #accountMenu="matMenu">
-        <a mat-menu-item href="/logout" *ngIf="user?._id">Log Out</a>
-      </mat-menu>
-    </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

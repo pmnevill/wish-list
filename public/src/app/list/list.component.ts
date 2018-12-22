@@ -6,7 +6,7 @@ import {BehaviorSubject, combineLatest} from 'rxjs';
 import {auditTime} from 'rxjs/internal/operators';
 import {Item, List} from '../api/list';
 import {ActivatedRoute} from '@angular/router';
-import {MatDialog, MatDrawer} from '@angular/material';
+import {MatDialog, MatSidenav} from '@angular/material';
 import {NewItemComponent} from './new-item/new-item.component';
 import {User} from '../api/user';
 
@@ -25,7 +25,7 @@ export class ListComponent implements OnInit {
   updateLoading$ = new BehaviorSubject(false);
   deleteLoading$ = new BehaviorSubject(false);
   isAdmin$ = new BehaviorSubject(false);
-  disableDrawerClose = false;
+  disableSidenavClose = false;
   orderByFavorite = {
     iteratee: (item: Item) => item.favorite ? 0 : 1,
     label: 'Favorite',
@@ -45,7 +45,7 @@ export class ListComponent implements OnInit {
   ];
   public user: User;
 
-  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(
     private fb: FormBuilder,
@@ -70,12 +70,12 @@ export class ListComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.resetSearchForm();
       if (params.id) {
-        this.disableDrawerClose = false;
+        this.disableSidenavClose = false;
         this.currentId = params.id;
         this.getList();
       } else {
-        this.disableDrawerClose = true;
-        this.drawer.open();
+        this.disableSidenavClose = true;
+        this.sidenav.open();
       }
     });
 

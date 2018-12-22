@@ -12,13 +12,6 @@ export class WelcomeComponent implements OnInit {
 
   lists: List[];
 
-  colorSet = {
-    name: 'vivid',
-    selectable: true,
-    group: 'Ordinal',
-    domain: ['#81c784', '#ef9a9a'],
-  };
-
   constructor(
     private listService: ListService,
   ) { }
