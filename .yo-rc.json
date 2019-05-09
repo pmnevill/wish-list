@@ -2,7 +2,7 @@
   "generator-kraken": {
     "taskModule": "grunt",
     "lintModule": "eslint",
-    "description": "Paul's Christmas list",
+    "description": "Paul's Wish list",
     "author": "Paul Nevill",
     "templateModule": false,
     "i18n": false,

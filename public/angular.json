@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "christmas-list": {
+    "wish-list": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/christmas-list",
+            "outputPath": "dist/wish-list",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -55,18 +55,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "christmas-list:build"
+            "browserTarget": "wish-list:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "christmas-list:build:production"
+              "browserTarget": "wish-list:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "christmas-list:build"
+            "browserTarget": "wish-list:build"
           }
         },
         "test": {
@@ -100,7 +100,7 @@
         }
       }
     },
-    "christmas-list-e2e": {
+    "wish-list-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -108,7 +108,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "christmas-list:serve"
+            "devServerTarget": "wish-list:serve"
           }
         },
         "lint": {
@@ -123,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "christmas-list"
+  "defaultProject": "wish-list"
 }

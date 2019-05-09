@@ -1,8 +1,8 @@
 <mat-toolbar fxFlex="none" color="primary" id="main-nav" fxLayoutGap="10px">
   <button mat-mini-fab (click)="sidenav.toggle();projectsSidenav.close();"><mat-icon>list</mat-icon></button>
-  <div fxFlex>Christmas Lists</div>
+  <div fxFlex>Wish Lists</div>
   <div fxFlex="initial" fxLayoutGap="10px" fxLayoutAlign="start center">
-    <a mat-icon-button href="https://github.com/pmnevill/christmas-list" target="_blank"><mat-icon class="icon-github"></mat-icon></a>
+    <a mat-icon-button href="https://github.com/pmnevill/wish-list" target="_blank"><mat-icon class="icon-github"></mat-icon></a>
     <button mat-icon-button (click)="sidenav.close();projectsSidenav.toggle()"><mat-icon>apps</mat-icon></button>
     <button mat-icon-button id="profile-picture" [matMenuTriggerFor]="accountMenu">
       <mat-icon *ngIf="!user?.auth0?.picture">account_circle</mat-icon>

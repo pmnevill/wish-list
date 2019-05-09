@@ -1,7 +1,7 @@
 {
-  "name": "christmas-list",
+  "name": "wish-list",
   "version": "0.1.0",
-  "description": "A Christmas list",
+  "description": "A Wish list",
   "author": "Paul Nevill",
   "main": "index.js",
   "scripts": {

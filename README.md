@@ -1,4 +1,4 @@
-Christmas List
+Wish List
 ===========
 
-Paul&#39;s Christmas list
+Paul&#39;s Wish list
