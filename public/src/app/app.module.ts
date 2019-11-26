@@ -12,6 +12,7 @@ import { ListComponent } from './list/list.component';
 import {AppRoutingModule} from './app-routing.module';
 import { NewItemComponent } from './list/new-item/new-item.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {NewListComponent} from './welcome/new-list/new-list.component';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any> {
@@ -26,6 +27,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     ItemComponent,
     ListComponent,
     NewItemComponent,
+    NewListComponent,
     WelcomeComponent,
   ],
   imports: [
@@ -40,6 +42,6 @@ export class MyHammerConfig extends HammerGestureConfig {
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [NewItemComponent],
+  entryComponents: [NewItemComponent, NewListComponent],
 })
 export class AppModule { }

@@ -8,11 +8,16 @@ import {User} from './user';
 })
 export class UserService {
 
-  public user = new BehaviorSubject<User>({});
+  private _user$ = new BehaviorSubject<User>({});
+  public user$ = this._user$.asObservable();
 
   constructor(
     private http: HttpClient,
   ) { }
+
+  public setUser(user: User) {
+    this._user$.next(user);
+  }
 
   public getUser() {
     return <Observable<User>>this.http.get('./api/user');

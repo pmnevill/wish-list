@@ -26,6 +26,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from '../app-routing.module';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const matModules = [
   MatToolbarModule,
@@ -48,6 +49,7 @@ const matModules = [
   MatButtonToggleModule,
   MatGridListModule,
   MatBadgeModule,
+  DragDropModule,
 ];
 
 @NgModule({

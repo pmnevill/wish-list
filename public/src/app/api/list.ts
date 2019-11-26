@@ -5,6 +5,7 @@ export interface List {
   userId?: string;
   purchased?: boolean;
   available?: boolean;
+  position?: number;
 }
 
 export interface Item {

@@ -1,5 +1,10 @@
-<mat-toolbar color="primary">{{list.name}}</mat-toolbar>
 <mat-progress-bar [mode]="(listLoading$ | async) ? 'indeterminate' : ''"></mat-progress-bar>
+<mat-toolbar fxlayoutalign="start center" fxLayoutGap="15px" class="mat-elevation-z5">
+  <div fxFlex>
+    <h1 *ngIf="list?.name">{{list.name}}'s List</h1>
+  </div>
+  <button mat-mini-fab color="primary" (click)="openNewDialog()" *ngIf="isAdmin$ | async"><mat-icon>add</mat-icon></button>
+</mat-toolbar>
 <div class="main-content" *ngIf="list._id">
   <div fxLayout fxLayout.lt-sm="column" fxLayoutAlign="start center" fxLayoutAlign.lt-sm="start">
     <div fxFlex fxFlex.lt-sm="initial">
@@ -11,7 +16,6 @@
             </mat-form-field>
           </div>
           <!--<button fxFlex="initial" color="accent" [disabled]="loading$ | async" fxFlex="initial" mat-icon-button (click)="getList()"><mat-icon>refresh</mat-icon></button>-->
-          <button fxFlex="initial" color="primary" mat-icon-button fxFlex="initial" (click)="openNewDialog()" *ngIf="isAdmin$ | async"><mat-icon>add</mat-icon></button>
         </div>
         <div fxFlex="initial" fxFlex.lt-sm="grow" fxLayout fxLayout.lt-sm="column" fxLayoutGap="20px" fxLayoutAlign.lt-sm="start" fxLayoutAlign="space-between center">
           <div fxLayout fxLayoutAlign.lt-sm="center" fxFlex="noshrink">
@@ -20,7 +24,7 @@
               <mat-chip color="accent" [disabled]="loading$ | async" [selected]="searchForm?.controls['purchased']?.value" (click)="toggleControl('purchased')">Purchased</mat-chip>
             </mat-chip-list>
           </div>
-          <div fxFlex="initial" fxLayout fxLayoutGap="5px">
+          <div fxFlex="initial" fxLayout fxLayoutGap="15px">
             <mat-form-field fxFlex="initial" fxFlex.lt-sm="">
               <mat-select formControlName="orderBy" placeholder="Order By" [compareWith]="orderByCompareFn">
                 <div *ngFor="let item of orderBys">
@@ -28,7 +32,7 @@
                 </div>
               </mat-select>
             </mat-form-field>
-            <button fxFlex="initial" mat-icon-button (click)="toggleSortOrder()" color="accent"><mat-icon>swap_vert</mat-icon></button>
+            <button mat-icon-button (click)="toggleSortOrder()" color="accent"><mat-icon>swap_vert</mat-icon></button>
           </div>
         </div>
       </form>

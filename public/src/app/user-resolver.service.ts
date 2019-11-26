@@ -18,11 +18,11 @@ export class UserResolverService implements Resolve<User> {
     return this.userService.getUser().pipe(
       take(1),
       map(user => {
-        this.userService.user.next(user);
+        this.userService.setUser(user);
         return user;
       }),
       catchError((err) => {
-        this.userService.user.next({});
+        this.userService.setUser({});
         const snackBarRef = this.snackBar.open('You are logged out!', 'Log In');
         snackBarRef.onAction().subscribe(() => window.location.href = '/login');
         return observableOf({});

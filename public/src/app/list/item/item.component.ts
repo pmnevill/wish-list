@@ -72,7 +72,7 @@ export class ItemComponent implements OnInit {
     const control = this.form.get('purchased');
     control.markAsDirty();
     control.setValue(!control.value);
-    this.snackbar.open(control.value ? 'Thank you!' : 'It\'s the thought that counts?', null, {duration: 2000});
+    this.snackbar.open(control.value ? 'Thank you!' : 'It\'s the thought that counts?', null, {duration: 5000});
   }
 
   toggleFavorite() {

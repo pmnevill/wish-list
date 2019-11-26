@@ -1,28 +1,34 @@
-<form [formGroup]="form">
-  <mat-card fxLayout="column" [matTooltip]="form.get('purchased').value ? 'Already purchased!' : ''">
-    <mat-card-header fxFlex="initial">
-      <mat-card-title class="text-ellipsis" [matTooltip]="item.name">{{item.name}}</mat-card-title>
-      <mat-card-subtitle>{{item.price | currency}}</mat-card-subtitle>
-    </mat-card-header>
-    <div fxFlex mat-card-image fxLayoutAlign="space-around"><img [attr.src]="item.img"></div>
-    <mat-card-actions fxFlex="initial" fxLayoutAlign="space-between center">
-      <div>
-        <a mat-button *ngIf="item.url" color="primary" [attr.href]="item.url" target="_blank">VIEW</a>
+<form [formGroup]="form" class="card-container mat-elevation-z1" [ngClass]="{purchased: form.get('purchased').value}" fxLayout="column" [matTooltip]="form.get('purchased').value ? 'Already purchased!' : ''">
+  <a [attr.href]="form.get('purchased').value ? null : item.url" target="_blank">
+    <mat-toolbar [color]="form.get('favorite').value && !form.get('purchased').value ? 'primary' : ''" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <div fxFlex fxLayout="column" fxLayoutAlign="start" class="text-ellipsis">
+        <h2 class="text-ellipsis" [matTooltip]="item.name">{{item.name}}</h2>
+        <small class="mat-typography">{{item.price | currency}}</small>
       </div>
-      <div fxLayout fxLayoutAlign="start center">
-        <mat-chip-list *ngIf="!item.ignorePurchased">
-          <mat-chip [selected]="form.get('purchased').value" color="primary" (click)="togglePurchased()" [matTooltip]="form.get('purchased').value ? 'Mark as not purchased' : 'Mark as purchased'">
-            {{form.get('purchased').value ? 'Purchased' : 'Not Purchased'}}
-            <mat-icon *ngIf="form.get('purchased').value" class="mat-chip-remove">close</mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-        <button mat-icon-button (click)="toggleFavorite()" *ngIf="isAdmin || form.get('favorite').value" color="accent" [matTooltip]="form.get('favorite').value ? 'Favorited' : 'Not Favorited'"><mat-icon>{{form.get('favorite').value ? 'favorite' : 'favorite_border'}}</mat-icon></button>
-        <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu"><mat-icon>more_vert</mat-icon></button>
-        <mat-menu #adminMenu="matMenu">
-          <button mat-menu-item [disabled]="loading$ | async" (click)="edit.emit(item)" color="accent"><mat-icon>edit</mat-icon> Edit</button>
-          <button mat-menu-item [disabled]="loading$ | async" (click)="delete.emit(item._id)" color="warn"><mat-icon>delete</mat-icon> Delete</button>
-        </mat-menu>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+      <mat-icon *ngIf="!form.get('purchased').value">open_in_new</mat-icon>
+    </mat-toolbar>
+  </a>
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" class="light-theme card-image">
+    <a [attr.href]="form.get('purchased').value ? null : item.url" target="_blank">
+      <img [attr.src]="item.img">
+    </a>
+  </div>
+  <div class="card-actions" fxLayoutAlign="space-between center">
+    <button mat-icon-button (click)="toggleFavorite()" *ngIf="isAdmin || form.get('favorite').value" [matTooltip]="form.get('favorite').value ? 'Favorited' : 'Not Favorited'">
+      <mat-icon [color]="form.get('favorite').value ? 'warn' : 'primary'">{{form.get('favorite').value ? 'favorite' : 'favorite_border'}}</mat-icon>
+    </button>
+    <div fxLayout fxLayoutAlign="start center">
+      <mat-chip-list *ngIf="!item.ignorePurchased">
+        <mat-chip [selected]="form.get('purchased').value" color="primary" (click)="togglePurchased()" [matTooltip]="form.get('purchased').value ? 'Mark as not purchased' : 'Mark as purchased'">
+          {{form.get('purchased').value ? 'Purchased' : 'Not Purchased'}}
+          <mat-icon *ngIf="form.get('purchased').value" class="mat-chip-remove">close</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <button mat-icon-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #adminMenu="matMenu">
+        <button mat-menu-item [disabled]="loading$ | async" (click)="edit.emit(item)" color="accent"><mat-icon>edit</mat-icon> Edit</button>
+        <button mat-menu-item [disabled]="loading$ | async" (click)="delete.emit(item._id)" color="warn"><mat-icon>delete</mat-icon> Delete</button>
+      </mat-menu>
+    </div>
+  </div>
 </form>

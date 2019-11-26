@@ -1,6 +1,6 @@
-<mat-toolbar fxFlex="none" color="primary" id="main-nav" fxLayoutGap="10px">
-  <button mat-mini-fab (click)="sidenav.toggle();projectsSidenav.close();"><mat-icon>list</mat-icon></button>
-  <div fxFlex>Wish Lists</div>
+<mat-toolbar fxFlex="none" color="primary" id="main-nav" fxLayoutGap="30px">
+  <button mat-icon-button (click)="sidenav.toggle();projectsSidenav.close();"><mat-icon>list</mat-icon></button>
+  <div fxFlex><a href="">Wish Lists</a></div>
   <div fxFlex="initial" fxLayoutGap="10px" fxLayoutAlign="start center">
     <a mat-icon-button href="https://github.com/pmnevill/wish-list" target="_blank"><mat-icon class="icon-github"></mat-icon></a>
     <button mat-icon-button (click)="sidenav.close();projectsSidenav.toggle()"><mat-icon>apps</mat-icon></button>
@@ -24,7 +24,9 @@
       <mat-nav-list fxFlex>
         <a mat-list-item routerLink="/" (click)="sidenav.close()"><mat-icon>home</mat-icon></a>
         <mat-divider></mat-divider>
-        <a mat-list-item [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="sidenav.close()">{{list.name}}</a>
+        <div cdkDropList (cdkDropListDropped)="drop($event)">
+          <a mat-list-item cdkDrag [cdkDragStartDelay]="500" [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="sidenav.close()">{{list.name}}</a>
+        </div>
       </mat-nav-list>
     </div>
   </mat-sidenav>

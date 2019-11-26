@@ -38,7 +38,7 @@ export class NewItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.user.subscribe((user) => {
+    this.userService.user$.subscribe((user) => {
       this.user = user;
     });
   }

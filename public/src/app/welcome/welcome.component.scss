@@ -2,7 +2,7 @@
   padding: 10px;
 }
 mat-card-header {
-  /deep/.mat-card-header-text {
+  ::ng-deep.mat-card-header-text {
     width: 100%;
     margin: 0;
   }

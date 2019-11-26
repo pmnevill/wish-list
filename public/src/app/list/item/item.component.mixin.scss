@@ -1,0 +1,5 @@
+@mixin item-component($theme) {
+  .card-container {
+    background: map-get(map-get($theme, background), card);
+  }
+}

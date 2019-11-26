@@ -1,25 +1,25 @@
-mat-card {
+.card-container {
   height: 300px;
   margin: 20px 0;
-  /deep/.mat-card-header-text {
-    width: 100%;
-    margin: 0;
+  &.purchased {
+    h2, small {
+      text-decoration: line-through;
+    }
+    img {
+      opacity: 0.2;
+    }
   }
-  .mat-card-image {
+  .card-image {
     height: 130px;
     min-height: 130px;
-    img {
-      max-height: 100%;
+    a, img {
       width: initial;
       height: inherit;
+      max-height: 100%;
       max-width: 100%;
     }
   }
-  mat-card-actions {
-    mat-chip {
-      mat-icon {
-        cursor: default !important;
-      }
-    }
+  .card-actions {
+    padding: 6px;
   }
 }

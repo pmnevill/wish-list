@@ -5,6 +5,8 @@ import {BehaviorSubject} from 'rxjs';
 import {List} from './api/list';
 import {User} from './api/user';
 import {ActivatedRoute} from '@angular/router';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ export class AppComponent implements OnInit {
   lists: List[] = [];
   listsLoading$ = new BehaviorSubject(false);
   user: User;
+  isAdmin$ = new BehaviorSubject(false);
 
   constructor(
     private listService: ListService,
@@ -24,8 +27,14 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userService.user.subscribe((user: User) => {
+    this.userService.user$.subscribe((user: User) => {
       this.user = user;
+      this.isAdmin$.next(user.isAdmin);
+    });
+
+    this.listService.lists$.subscribe((lists: List[]) => {
+      lists = _.orderBy(lists, 'position');
+      this.lists = lists;
     });
 
     this.getLists();
@@ -34,9 +43,12 @@ export class AppComponent implements OnInit {
   getLists() {
     this.listsLoading$.next(true);
     this.listService.getLists().subscribe((lists) => {
-      this.listService.lists.next(lists);
       this.listsLoading$.next(false);
-      this.lists = lists;
     });
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+    this.listService.setListsOrder(this.lists);
   }
 }
