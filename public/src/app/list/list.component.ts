@@ -6,7 +6,8 @@ import {BehaviorSubject, combineLatest} from 'rxjs';
 import {auditTime} from 'rxjs/internal/operators';
 import {Item, List} from '../api/list';
 import {ActivatedRoute} from '@angular/router';
-import {MatDialog, MatSidenav} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import {NewItemComponent} from './new-item/new-item.component';
 import {User} from '../api/user';
 
@@ -45,7 +46,7 @@ export class ListComponent implements OnInit {
   ];
   public user: User;
 
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
 
   constructor(
     private fb: FormBuilder,

@@ -24,8 +24,8 @@
       <mat-nav-list fxFlex>
         <a mat-list-item routerLink="/" (click)="sidenav.close()"><mat-icon>home</mat-icon></a>
         <mat-divider></mat-divider>
-        <div cdkDropList (cdkDropListDropped)="drop($event)">
-          <a mat-list-item cdkDrag [cdkDragStartDelay]="500" [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="sidenav.close()">{{list.name}}</a>
+        <div cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!(isAdmin$ | async)">
+          <a mat-list-item cdkDrag cdkDragStartDelay="500" [routerLink]="['/lists', list._id]" queryParamsHandling="merge" *ngFor="let list of lists" (click)="sidenav.close()">{{list.name}}</a>
         </div>
       </mat-nav-list>
     </div>

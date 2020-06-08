@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Item} from '../../api/list';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {User} from '../../api/user';
 

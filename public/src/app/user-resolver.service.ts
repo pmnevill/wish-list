@@ -2,7 +2,7 @@ import {of as observableOf, Observable} from 'rxjs';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {catchError, map, take} from 'rxjs/operators';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {UserService} from './api/user.service';
 import {User} from './api/user';
 

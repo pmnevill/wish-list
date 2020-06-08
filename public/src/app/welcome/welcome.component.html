@@ -22,7 +22,7 @@
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="space-between center">
         <a mat-button color="accent" [routerLink]="['../lists',list._id]">View</a>
-        <button mat-icon-button color="accent" (click)="deleteList(list._id)" *ngIf="isAdmin$ | async"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button color="accent" (click)="deleteList(list._id)" *ngIf="(isAdmin$ | async)"><mat-icon>delete</mat-icon></button>
       </mat-card-actions>
     </mat-card>
   </div>
